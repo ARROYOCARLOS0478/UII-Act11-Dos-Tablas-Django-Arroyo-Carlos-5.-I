@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block titulo %}Lista de Proveedores{% endblock %}
+
+{% block contenido %}
+    <div class="page-header">
+        <h2>Proveedores Registrados</h2>
+        <a href="{% url 'app_productos:crear_proveedor' %}" class="btn btn-primary">+ Agregar Proveedor</a>
+    </div>
+
+    {% if proveedores %}
+        <div class="supplier-list-container"> {# Un contenedor para la lista #}
+            <ul class="supplier-list">
+                {% for proveedor in proveedores %}
+                    <li class="supplier-item">
+                        <h3><a href="{% url 'app_productos:detalle_proveedor' proveedor.id %}">{{ proveedor.nombre }}</a></h3>
+                        <p><strong>Contacto:</strong> {{ proveedor.contacto|default:"N/A" }}</p>
+                        <p><strong>Teléfono:</strong> {{ proveedor.telefono|default:"N/A" }}</p>
+                        <p><strong>Dirección:</strong> {{ proveedor.direccion|default:"N/A" }}</p>
+                        <div class="supplier-actions">
+                            <a href="{% url 'app_productos:editar_proveedor' proveedor.id %}" class="btn btn-secondary">Editar</a>
+                            <a href="{% url 'app_productos:borrar_proveedor' proveedor.id %}" class="btn btn-danger">Eliminar</a>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% else %}
+        <p class="no-suppliers">No hay proveedores registrados. <a href="{% url 'app_productos:crear_proveedor' %}">¡Crea uno ahora!</a></p>
+    {% endif %}
+{% endblock %}

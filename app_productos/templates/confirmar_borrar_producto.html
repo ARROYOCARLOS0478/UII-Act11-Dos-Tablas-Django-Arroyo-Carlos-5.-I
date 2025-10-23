@@ -1,0 +1,26 @@
+{% extends 'base.html' %} {# Asegúrate de extender de la base correcta #}
+
+{% block titulo %}Eliminar Producto | BYD Productos{% endblock %} {# Título específico para esta página #}
+
+{% block contenido %}
+<div class="delete-confirmation-container"> {# Nuevo contenedor para estilos #}
+    <h2>¿Estás seguro de que quieres borrar el producto "{{ producto.nombre }}"?</h2> {# Referencia a producto.nombre #}
+    <p class="warning-message">Esta acción es irreversible y eliminará todos los datos asociados al producto.</p> {# Mensaje más detallado #}
+
+    <div class="product-info-to-delete"> {# Opcional: mostrar algunos detalles del producto a borrar #}
+        <h3>Detalles del Producto:</h3>
+        <p><strong>Nombre:</strong> {{ producto.nombre }}</p>
+        <p><strong>Modelo:</strong> {{ producto.modelo|default:"N/A" }}</p>
+        <p><strong>Precio:</strong> ${{ producto.precio }}</p>
+        <p><strong>Proveedor:</strong> {{ producto.proveedor.nombre }}</p>
+    </div>
+
+    <form method="post" class="delete-form">
+        {% csrf_token %}
+        <div class="actions">
+            <button type="submit" class="btn btn-danger">Sí, Borrar Producto</button> {# Texto del botón cambiado #}
+            <a href="{% url 'app_productos:detalle_producto' producto.id %}" class="btn btn-secondary">Cancelar</a> {# Enlace y clase cambiados #}
+        </div>
+    </form>
+</div>
+{% endblock %}

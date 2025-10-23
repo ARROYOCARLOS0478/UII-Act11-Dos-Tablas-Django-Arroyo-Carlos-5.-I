@@ -1,0 +1,45 @@
+{% extends 'base.html' %} {# Asegúrate de extender de la base correcta #}
+
+{% block titulo %}{{ titulo }} | BYD Productos{% endblock %} {# Título específico para esta página #}
+
+{% block contenido %}
+<div class="form-container"> {# Puedes añadir un contenedor para centrar el formulario si es necesario #}
+    <h2>{{ titulo }}</h2> {# 'titulo' será "Crear Producto" o "Editar Producto" #}
+    <form method="post" enctype="multipart/form-data" class="form-styled">
+        {% csrf_token %}
+        
+        {# Mostrar errores del formulario no globales #}
+        {% if form.non_field_errors %}
+            <ul class="errorlist">
+                {% for error in form.non_field_errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
+        {# Renderiza los campos del formulario #}
+        {# Puedes usar form.as_p, form.as_ul, form.as_table o renderizarlos uno por uno #}
+        {% for field in form %}
+            <div class="form-group">
+                {{ field.label_tag }} {# Etiqueta del campo #}
+                {{ field }} {# El campo de entrada #}
+                {% if field.help_text %}
+                    <small class="form-text text-muted">{{ field.help_text }}</small> {# Texto de ayuda #}
+                {% endif %}
+                {% if field.errors %}
+                    <ul class="errorlist">
+                        {% for error in field.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+        {% endfor %}
+
+        <div class="actions">
+            <button type="submit" class="btn btn-primary">Guardar Producto</button> {# Texto del botón cambiado #}
+            <a href="{% url 'app_productos:listar_productos' %}" class="btn btn-cancel">Cancelar</a> {# Enlace y clase cambiados #}
+        </div>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,46 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block titulo %}BYD Productos{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    {# Agregamos Font Awesome CDN aquí para los iconos #}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="wrapper">
+        <header class="main-header">
+            {# Ícono para el título principal #}
+            <h1><a href="{% url 'app_productos:listar_productos' %}">BYD Productos</a></h1>
+            <nav class="main-nav">
+                {# Ícono para Listar Productos (caja o etiqueta) #}
+                <a href="{% url 'app_productos:listar_productos' %}"><i class="fa-solid fa-car-side"></i> Productos</a>
+                {# Ícono para Nuevo Producto (agregar artículo) #}
+                <a href="{% url 'app_productos:crear_producto' %}"><i class="fas fa-plus-square"></i> Nuevo Producto</a>
+                {# Ícono para Listar Proveedores (grupo de personas o camión) #}
+                <a href="{% url 'app_productos:listar_proveedores' %}"><i class="fas fa-truck"></i> Proveedores</a>
+                {# Ícono para Nuevo Proveedor (agregar persona o camión) #}
+                <a href="{% url 'app_productos:crear_proveedor' %}"><i class="fas fa-user-plus"></i> Nuevo Proveedor</a>
+            </nav>
+        </header>
+
+        <main class="main-content">
+            {% if messages %}
+                <ul class="messages">
+                    {% for message in messages %}
+                        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+
+            {% block contenido %}{% endblock %}
+        </main>
+
+        <footer class="main-footer">
+            <p>© 2024 BYD Productos - Arroyo Nicolas Carlos Alexander - 5.-I</p>
+        </footer>
+    </div>
+</body>
+</html>

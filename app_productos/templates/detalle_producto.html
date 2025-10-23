@@ -1,0 +1,46 @@
+{% extends 'base.html' %} {# Asegúrate de extender de la base correcta #}
+
+{% block titulo %}{{ producto.nombre }} | BYD Productos{% endblock %} {# Título específico para esta página #}
+
+{% block contenido %}
+<article class="product-detail"> {# Cambiado a product-detail #}
+    <div class="product-banner"> {# Cambiado a product-banner #}
+        {# A partir de aquí, la modificación #}
+        {% if producto.imagen_producto %}
+            <img src="{{ producto.imagen_producto.url }}" alt="Imagen de {{ producto.nombre }}" class="detail-photo">
+        {% endif %} {# Si no hay imagen, este bloque simplemente no renderiza nada #}
+        {# Fin de la modificación #}
+
+        <div class="product-info"> {# Cambiado a product-info #}
+            <h1>{{ producto.nombre }}</h1>
+            <h3>Modelo: {{ producto.modelo|default:"N/A" }}</h3> {# Muestra el modelo #}
+            <p><strong>Descripción:</strong> {{ producto.descripcion|default:"Sin descripción." }}</p> {# Muestra la descripción #}
+            <p><strong>Precio:</strong> ${{ producto.precio }}</p> {# Muestra el precio #}
+            <p><strong>Stock:</strong> {{ producto.stock }} unidades</p> {# Muestra el stock #}
+            <p><strong>Proveedor:</strong> {{ producto.proveedor.nombre }}</p> {# Muestra el nombre del proveedor #}
+        </div>
+    </div>
+
+    <div class="detail-actions">
+        <a href="{% url 'app_productos:editar_producto' producto.id %}" class="btn btn-secondary">✏️ Editar</a> {# Enlace de edición #}
+        <a href="{% url 'app_productos:borrar_producto' producto.id %}" class="btn btn-danger">🗑️ Borrar</a> {# Enlace para borrar #}
+    </div>
+
+    {# La sección de "Canciones" se elimina ya que no aplica a un producto. #}
+    {# Si tuvieras modelos relacionados con Producto (ej: Componentes, Repuestos), irían aquí #}
+    {# Por ejemplo: #}
+    {# <section class="related-items-section"> #}
+    {#     <h2>Componentes Incluidos</h2> #}
+    {#     {% if producto.componentes.all %} #}
+    {#     <ul class="item-list"> #}
+    {#         {% for componente in producto.componentes.all %} #}
+    {#         <li>{{ componente.nombre }}</li> #}
+    {#         {% endfor %} #}
+    {#     </ul> #}
+    {#     {% else %} #}
+    {#     <p class="empty-message">Este producto no tiene componentes listados.</p> #}
+    {#     {% endif %} #}
+    {# </section> #}
+
+</article>
+{% endblock %}

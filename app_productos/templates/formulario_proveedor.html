@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block titulo %}{{ titulo }} | Proveedor{% endblock %}
+
+{% block contenido %}
+<div class="form-container">
+    <h2>{{ titulo }}</h2>
+    <form method="post" class="form-styled">
+        {% csrf_token %}
+        
+        {% if form.non_field_errors %}
+            <ul class="errorlist">
+                {% for error in form.non_field_errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
+        {% for field in form %}
+            <div class="form-group">
+                {{ field.label_tag }}
+                {{ field }}
+                {% if field.help_text %}
+                    <small class="form-text text-muted">{{ field.help_text }}</small>
+                {% endif %}
+                {% if field.errors %}
+                    <ul class="errorlist">
+                        {% for error in field.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+        {% endfor %}
+
+        <div class="actions">
+            <button type="submit" class="btn btn-primary">Guardar Proveedor</button>
+            <a href="{% url 'app_productos:listar_proveedores' %}" class="btn btn-cancel">Cancelar</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

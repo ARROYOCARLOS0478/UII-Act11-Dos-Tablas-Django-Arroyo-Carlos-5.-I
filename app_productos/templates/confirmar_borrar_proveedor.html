@@ -1,0 +1,28 @@
+{% extends 'app_productos/base.html' %}
+
+{% block titulo %}Eliminar Proveedor | BYD Productos{% endblock %}
+
+{% block contenido %}
+<div class="delete-confirmation-container">
+    <h2>¿Estás seguro de que quieres borrar el proveedor "{{ proveedor.nombre }}"?</h2>
+    <p class="warning-message">
+        <strong>¡Atención!</strong> Esta acción es irreversible. Si este proveedor tiene productos asociados,
+        esos productos se eliminarán automáticamente (debido a `on_delete=CASCADE` en el modelo `Producto`).
+    </p>
+
+    <div class="supplier-info-to-delete">
+        <h3>Detalles del Proveedor:</h3>
+        <p><strong>Nombre:</strong> {{ proveedor.nombre }}</p>
+        <p><strong>Contacto:</strong> {{ proveedor.contacto|default:"N/A" }}</p>
+        <p><strong>Teléfono:</strong> {{ proveedor.telefono|default:"N/A" }}</p>
+    </div>
+
+    <form method="post" class="delete-form">
+        {% csrf_token %}
+        <div class="actions">
+            <button type="submit" class="btn btn-danger">Sí, Borrar Proveedor</button>
+            <a href="{% url 'app_productos:detalle_proveedor' proveedor.id %}" class="btn btn-secondary">Cancelar</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

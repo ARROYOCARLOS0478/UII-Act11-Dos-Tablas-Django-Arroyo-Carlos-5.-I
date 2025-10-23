@@ -1,0 +1,36 @@
+{% extends 'base.html' %} {# Asegúrate de extender de la base correcta #}
+
+{% block titulo %}Productos | BYD Productos{% endblock %} {# Título específico para esta página #}
+
+{% block contenido %}
+<div class="page-header">
+    <h2>Productos Registrados</h2>
+    <a href="{% url 'app_productos:crear_producto' %}" class="btn btn-primary">+ Agregar Producto</a> {# Enlace para crear producto #}
+</div>
+
+<div class="product-grid"> {# Cambiado a product-grid para organizar mejor #}
+    {% for producto in productos %}
+    <div class="product-card"> {# Cada tarjeta representa un producto #}
+        <a href="{% url 'app_productos:detalle_producto' producto.id %}">
+            {# A partir de aquí, la modificación #}
+            {% if producto.imagen_producto %}
+                <img src="{{ producto.imagen_producto.url }}" alt="Imagen de {{ producto.nombre }}" class="product-img">
+            {% endif %} {# Si no hay imagen, este bloque simplemente no renderiza nada #}
+            {# Fin de la modificación #}
+
+            <h3>{{ producto.nombre }}</h3>
+            <p class="product-model">Modelo: {{ producto.modelo|default:"N/A" }}</p> {# Muestra el modelo #}
+            <p class="product-price">Precio: ${{ producto.precio }}</p> {# Muestra el precio #}
+            <p class="product-stock">Stock: {{ producto.stock }}</p> {# Muestra el stock #}
+            <p class="product-supplier">Proveedor: {{ producto.proveedor.nombre }}</p> {# Muestra el nombre del proveedor #}
+        </a>
+        <div class="product-actions">
+            <a href="{% url 'app_productos:editar_producto' producto.id %}" class="btn btn-secondary">Editar</a>
+            <a href="{% url 'app_productos:borrar_producto' producto.id %}" class="btn btn-danger">Eliminar</a>
+        </div>
+    </div>
+    {% empty %}
+    <p class="no-products">No hay productos registrados. <a href="{% url 'app_productos:crear_producto' %}">¡Crea uno ahora!</a></p>
+    {% endfor %}
+</div>
+{% endblock %}
